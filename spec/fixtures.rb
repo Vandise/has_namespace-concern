@@ -22,6 +22,7 @@ ActiveRecord::Schema.define do
     t.belongs_to :administration_user
     t.string :title
     t.text :body
+    t.boolean :published, default: false
     t.timestamps null: false
   end
 
@@ -51,7 +52,7 @@ module Administration
   class User < ActiveRecord::Base
     include HasNamespace::Concern
 
-    has_many! :posts, namespace: 'Content'
+    has_many! :posts, ->{ where(published: true) }, namespace: 'Content'
     has_one!  :picture, namespace: 'Profile'
     belongs_to! :team, foreign_key: 'user_team_id', class_name: 'Account::Team'
   end

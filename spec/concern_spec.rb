@@ -3,10 +3,12 @@ require 'spec_helper'
 RSpec.describe HasNamespace::Concern do
 
   let!(:user) { Administration::User.create(name: 'Bender', email: 'benderisgreat@futurama.com') }
-  let!(:post) { Content::Post.create(user: user, title: 'The Ballad of Me: Bender', body: '"Tell my offspring I loved me."') }
+  let!(:post) { Content::Post.create(user: user, title: 'The Ballad of Me: Bender', body: '"Tell my offspring I loved me."', published: true) }
   let!(:tag) { Content::Tag.create(name: 'Folk Songs', posts: [post]) }
   let!(:picture) { Profile::Picture.create(user: user, url: '/personality/me.jpg') }
   let!(:team) { Account::Team.create(name: 'MomCo Robotics', users: [user]) }
+
+  let!(:draft_post) { Content::Post.create(user: user, title: 'Draft', body: '', published: false) }
 
   describe 'association attributes' do
     context '.table_name' do
